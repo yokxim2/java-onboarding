@@ -22,9 +22,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
 
-    private static long ACCESS_TOKEN_EXPIRATION_TIME = 600000L;
-    private static long REFRESH_TOKEN_EXPIRATION_TIME = 86400000L;
-    private static int COOKIE_EXPIRATION_TIME = 24 * 60 * 60;
+    public static long ACCESS_TOKEN_EXPIRATION_TIME = 600000L;
+    public static long REFRESH_TOKEN_EXPIRATION_TIME = 86400000L;
+    public static int COOKIE_EXPIRATION_TIME = 24 * 60 * 60;
 
     public LoginFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
