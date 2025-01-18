@@ -6,6 +6,7 @@ import org.example.javaonboarding.global.jwt.JWTUtil;
 import org.springframework.stereotype.Service;
 
 import static org.example.javaonboarding.global.jwt.LoginFilter.ACCESS_TOKEN_EXPIRATION_TIME;
+import static org.example.javaonboarding.global.jwt.LoginFilter.REFRESH_TOKEN_EXPIRATION_TIME;
 
 @Service
 public class AuthService {
@@ -16,7 +17,9 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
-    public String reissue(Cookie[] cookies) {
+    public String[] reissue(Cookie[] cookies) {
+        String[] tokens = new String[2];
+
         // Refresh Token 얻기
         String refresh = null;
         for (Cookie cookie : cookies) {
@@ -47,6 +50,12 @@ public class AuthService {
         String role = jwtUtil.getRole(refresh);
 
         // 새로운 JWT 생성
-        return jwtUtil.createJwt("access", username, role, ACCESS_TOKEN_EXPIRATION_TIME);
+        String newAccess = jwtUtil.createJwt("access", username, role, ACCESS_TOKEN_EXPIRATION_TIME);
+        String newRefresh = jwtUtil.createJwt("refresh", username, role, REFRESH_TOKEN_EXPIRATION_TIME);
+
+        tokens[0] = newAccess;
+        tokens[1] = newRefresh;
+
+        return tokens;
     }
 }
